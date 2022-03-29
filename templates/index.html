@@ -1,0 +1,269 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="utf-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+  <meta name="description" content="">
+  <meta name="author" content="">
+  <link rel="icon" href="../images/favicon.ico">
+
+  <title>Dashboard</title>
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/vendor_components/bootstrap/dist/css/bootstrap.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/bootstrap-extend.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='assets/vendor_components/morris.js/morris.css') }}">
+  <link rel="stylesheet"
+    href="{{ url_for('static', filename='assets/vendor_components/weather-icons/weather-icons.css') }}">
+  <link rel="stylesheet" href="https://www.amcharts.com/lib/3/plugins/export/export.css" type="text/css" media="all" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/master_style.css') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/skins/_all-skins.css') }}">
+</head>
+
+<body class="hold-transition skin-yellow sidebar-mini">
+  <div>
+    <section class="content-header">
+      <h1>
+        Random
+      </h1>
+    </section>
+
+    <section class="content">
+
+      <div class="row">
+        <div class="col-md-6 col-xl-1"></div>
+        <div class="col-md-6 col-xl-2">
+          <div class="box pull-up">
+            <div class="box-body">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <h5>TEMP</h5>
+                </div>
+                <div class="col-6">
+                  <h4 class="counter text-center mb-0"><small class="text-danger pl-10"><i
+                        class="mdi mdi-arrow-down text-danger" id="graph0"></i></small></h4>
+                </div>
+                <div class="col-12">
+                  <div id="sparkline0" class="mt-40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="box pull-up">
+            <div class="box-body">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <h5>EC</h5>
+                </div>
+                <div class="col-6">
+                  <h4 class="counter text-center mb-0"><small class="text-success pl-10"><i
+                        class="mdi mdi-arrow-up text-success" id="graph1"></i></small></h4>
+                </div>
+                <div class="col-12">
+                  <div id="sparkline1" class="mt-40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="box pull-up">
+            <div class="box-body">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <h5>PH</h5>
+                </div>
+                <div class="col-6">
+                  <h4 class="counter text-center mb-0"><small class="text-danger pl-10"><i
+                        class="mdi mdi-arrow-down text-danger" id="graph2"></i></small></h4>
+                </div>
+                <div class="col-12">
+                  <div id="sparkline2" class="mt-40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="box pull-up">
+            <div class="box-body">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <h5>PH</h5>
+                </div>
+                <div class="col-6">
+                  <h4 class="counter text-center mb-0"><small class="text-success pl-10"><i
+                        class="mdi mdi-arrow-up text-success" id="graph3"></i></small></h4>
+                </div>
+                <div class="col-12">
+                  <div id="sparkline3" class="mt-40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-2">
+          <div class="box pull-up">
+            <div class="box-body">
+              <div class="row align-items-center">
+                <div class="col-3">
+                  <h5>HUMIDITY</h5>
+                </div>
+                <div class="col-6">
+                  <h4 class="counter text-center mb-0"><small class="text-success pl-10"><i
+                        class="mdi mdi-arrow-up text-success" id="graph4"></i></small></h4>
+                </div>
+                <div class="col-12">
+                  <div id="sparkline4" class="mt-40"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="col-md-6 col-xl-1"></div>
+      </div>
+    </section>
+  </div>
+
+
+  <script src="{{ url_for('static', filename='assets/vendor_components/jquery/dist/jquery.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/jquery-ui/jquery-ui.js') }}"></script>
+  <script>
+    $.widget.bridge('uibutton', $.ui.button);
+  </script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/popper/dist/popper.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/bootstrap/dist/js/bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/raphael/raphael.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/morris.js/morris.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_plugins/weather-icons/WeatherIcon.js') }}"></script>
+  <script
+    src="{{ url_for('static', filename='assets/vendor_components/jquery-slimscroll/jquery.slimscroll.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/fastclick/lib/fastclick.js') }}"></script>
+  <script src="{{ url_for('static', filename='assets/vendor_components/jquery.peity/jquery.peity.js') }}"></script>
+  <script
+    src="{{ url_for('static', filename='assets/vendor_components/jquery-sparkline/dist/jquery.sparkline.min.js') }}"></script>
+  <script src="https://www.amcharts.com/lib/3/amcharts.js"></script>
+  <script src="https://www.amcharts.com/lib/3/serial.js"></script>
+  <script src="https://www.amcharts.com/lib/3/gauge.js"></script>
+  <script src="https://www.amcharts.com/lib/3/amstock.js"></script>
+  <script src="https://www.amcharts.com/lib/3/plugins/export/export.min.js"></script>
+  <script src="https://www.amcharts.com/lib/3/themes/black.js"></script>
+  <script
+    src="{{ url_for('static', filename='assets/vendor_components/Web-Ticker-master/jquery.webticker.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/template.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/pages/dashboard.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/pages/dashboard-chart.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/demo.js') }}"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/4.0.1/socket.io.js"
+    integrity="sha512-q/dWJ3kcmjBLU4Qc47E4A9kTB4m3wuTY7vkFJDTZKjTs8jhyGQnaUrxa0Ytd0ssMZhbNua9hE+E7Qv1j+DyZwA=="
+    crossorigin="anonymous"></script>
+  <script>
+    var socket = io();
+    socket.on('connect', function () {
+      socket.emit('connection', { data: 'I\'m connected!' });
+    });
+    let array0 = []
+    let array1 = []
+    let array2 = []
+    let array3 = []
+    let array4 = []
+
+    let graph0 = document.getElementById("graph0");
+    let graph1 = document.getElementById("graph1");
+    let graph2 = document.getElementById("graph2");
+    let graph3 = document.getElementById("graph3");
+    let graph4 = document.getElementById("graph4");
+
+
+    socket.on("data", (data) => {
+      if (data.data.temp) {
+        array0.push(data.data.temp);
+        array1.push(data.data.ec);
+        array2.push(data.data.ph1);
+        array3.push(data.data.ph2);
+        array4.push(data.data.humidity);
+
+        graph0.innerText = data.data.temp
+        graph1.innerText = data.data.ec
+        graph2.innerText = data.data.ph1
+        graph3.innerText = data.data.ph2
+        graph4.innerText = data.data.humidity
+
+      }
+
+      if (array0.length > 10) array0.shift()
+      if (array1.length > 10) array1.shift()
+      if (array2.length > 10) array2.shift()
+      if (array3.length > 10) array3.shift()
+      if (array4.length > 10) array4.shift()
+
+      console.log(data.data);
+      $("#sparkline0").sparkline(array0, {
+        type: 'line',
+        width: '100%',
+        height: '40',
+        lineColor: '#e0bc00',
+        lineWidth: '3',
+        fillColor: '#e0bc0000',
+        minSpotColor: '#e0bc00',
+        maxSpotColor: '#e0bc00',
+        highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+        highlightSpotColor: '#4f4f4f'
+      });
+      $("#sparkline1").sparkline(array1, {
+        type: 'line',
+        width: '100%',
+        height: '40',
+        lineColor: '#03a9f3',
+        lineWidth: '3',
+        fillColor: '#03a9f300',
+        minSpotColor: '#03a9f3',
+        maxSpotColor: '#03a9f3',
+        highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+        highlightSpotColor: '#03a9f3'
+      });
+      $("#sparkline2").sparkline(array2, {
+        type: 'line',
+        width: '100%',
+        height: '40',
+        lineColor: '#ab8ce4',
+        lineWidth: '3',
+        fillColor: '#ab8ce400',
+        minSpotColor: '#ab8ce4',
+        maxSpotColor: '#ab8ce4',
+        highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+        highlightSpotColor: '#ab8ce4'
+      });
+      $("#sparkline3").sparkline(array3, {
+        type: 'line',
+        width: '100%',
+        height: '40',
+        lineColor: '#e4e7ea',
+        lineWidth: '3',
+        fillColor: '#e4e7ea00',
+        minSpotColor: '#e4e7ea',
+        maxSpotColor: '#e4e7ea',
+        highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+        highlightSpotColor: '#e4e7ea'
+      });
+      $("#sparkline4").sparkline(array4, {
+        type: 'line',
+        width: '100%',
+        height: '40',
+        lineColor: '#f4e7ea',
+        lineWidth: '3',
+        fillColor: '#f4e7ea00',
+        minSpotColor: '#f4e7ea',
+        maxSpotColor: '#f4e7ea',
+        highlightLineColor: 'rgba(0, 0, 0, 0.2)',
+        highlightSpotColor: '#f4e7ea'
+      });
+      socket.emit("updated_data", data);
+    })
+  </script>
+</body>
+
+</html>
